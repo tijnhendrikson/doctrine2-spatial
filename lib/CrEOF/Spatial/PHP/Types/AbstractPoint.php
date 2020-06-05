@@ -226,8 +226,6 @@ abstract class AbstractPoint extends AbstractGeometry
      * @param array $argv list of arguments
      *
      * @throws InvalidValueException when an argument is not valid
-     *
-     * @return array
      */
     protected function validateArguments(array $argv = null): array
     {
@@ -250,8 +248,6 @@ abstract class AbstractPoint extends AbstractGeometry
      *
      * @param array|null $argv the argument which should be an array
      *
-     * @return array|mixed
-     *
      * @throws InvalidValueException when argv is not an array
      */
     private function checkOneArgument(?array $argv): array
@@ -264,11 +260,28 @@ abstract class AbstractPoint extends AbstractGeometry
     }
 
     /**
-     * Check and the argv argument which have two elements.
+     * Check and the argv argument which have three elements.
      *
      * @param array|null $argv the argument which should be an array
      *
-     * @return array|mixed
+     * @throws InvalidValueException when argv is not an array
+     */
+    private function checkThreeArguments(?array $argv): array
+    {
+        if ($this->isNumericOrString($argv[0])
+            && $this->isNumericOrString($argv[1])
+            && $this->isNumericOrStringOrNull($argv[2])
+        ) {
+            return $argv;
+        }
+
+        throw $this->exception($argv);
+    }
+
+    /**
+     * Check and the argv argument which have two elements.
+     *
+     * @param array|null $argv the argument which should be an array
      *
      * @throws InvalidValueException when argv is not an array
      */
@@ -288,32 +301,9 @@ abstract class AbstractPoint extends AbstractGeometry
     }
 
     /**
-     * Check and the argv argument which have three elements.
-     *
-     * @param array|null $argv the argument which should be an array
-     *
-     * @return array|mixed
-     *
-     * @throws InvalidValueException when argv is not an array
-     */
-    private function checkThreeArguments(?array $argv): array
-    {
-        if ($this->isNumericOrString($argv[0])
-            && $this->isNumericOrString($argv[1])
-            && $this->isNumericOrStringOrNull($argv[2])
-        ) {
-            return $argv;
-        }
-
-        throw $this->exception($argv);
-    }
-
-    /**
      * Create a new InvalidException.
      *
      * @param array|null $argv the argv is read to compute message of exception
-     *
-     * @return InvalidValueException
      */
     private function exception(?array $argv): InvalidValueException
     {
@@ -337,8 +327,6 @@ abstract class AbstractPoint extends AbstractGeometry
      * Is parameter numeric or string?
      *
      * @param mixed $parameter to test
-     *
-     * @return bool
      */
     private function isNumericOrString($parameter): bool
     {
@@ -349,8 +337,6 @@ abstract class AbstractPoint extends AbstractGeometry
      * Is parameter numeric or string or null?
      *
      * @param mixed $parameter to test
-     *
-     * @return bool
      */
     private function isNumericOrStringOrNull($parameter): bool
     {
