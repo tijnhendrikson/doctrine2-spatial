@@ -15,7 +15,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2",
+        "php": "^7.2|^8.0",
         "ext-json": "*",
         "ext-mbstring": "*",
         "creof/geo-parser": "~2.0",
